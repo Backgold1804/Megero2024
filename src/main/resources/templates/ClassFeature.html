@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+    <html xmlns:th="http://www.thymeleaf.org">
+    <th:block th:replace="~{./include/head.html}"></th:block>
+    <body>
+        <div class="Wpop">
+            <div th:replace="~{./include/top.html}"></div>
+            <!-- //header -->
+            <div class="cont_area">
+                <div class="cont">
+                    <div class="box">
+                        <div class="tab_area">
+                            <div class="tab_nav col3">
+                                <ul class="tab_list">
+                                    <li class="nav-class-feature active">직업 특징 및 추천</li>
+                                    <a href="/scheduler"><li class="nav-scheduler">스케줄러</li></a>
+                                </ul>
+                            </div>
+
+                            <main class="main">
+                                <div class="class-search">
+                                    <form>
+                                        <input class="input-class" list="all-class-list" name="class" placeholder="직업명을 입력해주세요.">
+                                        <datalist id="all-class-list">
+                                            <option th:each="classlist : ${list}" th:value="${classlist.name}"></option>
+                                        </datalist>
+                                    </form>
+                                </div>
+
+                                <div class="class-info" th:each="kindMap : ${kindList}" th:switch="${kindMap.kind_uid}">
+                                    <div th:case="2" class="container">
+                                        <div class="group-text">[[${kindMap.kind_name}]]</div>
+                                        <div class="explorer-list">
+                                            <div class="class-list">
+                                                <a class="class" th:each="item, iterStat : ${list}" th:if="${item.kindUid == kindMap.kind_uid and iterStat.index < 9}" th:href="@{/class-feature/detail(classUid=${item.uid})}">
+                                                    <img class="class-img" th:src="@{/images/standings/{uid}Std.png(uid=${item.uid})}" />
+                                                    <div class="class-name" th:text="${item.name}"></div>
+                                                </a>
+                                            </div>
+
+                                            <div class="class-list">
+                                                <a class="class" th:each="item, iterStat : ${list}" th:if="${item.kindUid == kindMap.kind_uid and iterStat.index >= 9}" th:href="@{/class-feature/detail(classUid=${item.uid})}">
+                                                    <img class="class-img" th:src="@{/images/standings/{uid}Std.png(uid=${item.uid})}" />
+                                                    <div class="class-name" th:text="${item.name}"></div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div th:case="*" class="container">
+                                        <div class="group-text">[[${kindMap.kind_name}]]</div>
+                                        <div class="class-list">
+                                            <a class="class" th:each="item : ${list}" th:if="${item.kindUid == kindMap.kind_uid}" th:href="@{/class-feature/detail(classUid=${item.uid})}">
+                                                <img class="class-img" th:src="@{/images/standings/{uid}Std.png(uid=${item.uid})}" />
+                                                <div class="class-name" th:text="${item.name}"></div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </main>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

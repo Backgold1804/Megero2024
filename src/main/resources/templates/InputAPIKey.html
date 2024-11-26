@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <th:block th:replace="~{./include/head.html}"></th:block>
+    <style>
+        .container {max-width: 1200px;margin:0 auto;padding:10px 0;}
+    </style>
+    
+    <body>
+        <div class="Wpop">
+            <div th:replace="~{./include/top.html}"></div>
+            <!-- //header -->
+            <form name="f" action="/save-api-key">
+                <div class="cont_area">
+                    <div class="cont">
+                        <div class="box">
+                            <div class="text_info_box">
+                                <div>
+                                    <ul style="width:100%">
+                                        <li><input type="text" name="apikey" th:value="${apikey}" onenter="doSubmit();" placeholder="API KEY를 입력해 주세요." class="int_search"></li>
+                                        <li><a class="search_btn" id="search_btn">저장</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cont">
+                        <div class="box">
+                            <div class="text_info_box"  >
+                                <div class="choice-character-container">
+                                    <div class="choice-character-info" th:each="item : ${list}" th:uid="${item.uid}" onclick="fn_main(this.getAttribute('uid'))">
+                                        <div class="cropping"><img class="choice-class-img" th:src="${item.img_path}" /></div>
+                                        <div class="text-container">
+                                            <div class="no-nickname-text"><img th:src="${item.world_img}" /> [[${item.classname}]]</div>
+                                            <div class="yes-nickname-text">Lv.[[${item.level}]] [[${item.nickname}]]</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="info_popup Mpop" style="top: 50%; left: 50%; transform: translate(-50%, -50%); display: none;">
+            <div class="header">
+                <h4>API-KEY 저장 중 입니다..</h4>
+                <button type="button" class="pop_close"></button>
+            </div>
+            <div class="cont">
+                <div class="Tcont">
+                    <span>API-KEY 저장 중 입니다.<br>넥슨에서 캐릭터 정보를 얻어오고 있어 시간이 다소 걸릴수 있습니다.<br>자동으로 화면이 새로고침 될 때까지 기다려주세요.</span>
+                </div>
+            </div>
+        </div>
+        <div class="dim" style="display: none;"></div>
+    </body>
+
+    <script>
+    function fn_main(v) {
+        $.ajax ({
+            type : 'get',
+            url : '/update_main',
+            data : "character_uid="+v,
+            dataType : 'text',
+            error: function(xhr, status, error){
+                location.href = "/";
+            },
+            success : function(json){
+                location.href = "/";
+            }
+        });
+    }
+
+    $('#search_btn').on('click',function(){
+        $('.info_popup').show();
+        $('.info_popup').next('.dim').show();
+        $('body').addClass('over');
+
+        var queryString = $("form[name=f]").serialize() ;
+
+        $.ajax ({
+            type : 'get',
+            url : '/save-api-key',
+            data : queryString,
+            dataType : 'text',
+            error: function(xhr, status, error) {
+                alert(text);
+                location.reload();
+            },
+            success : function(json) {
+                location.reload();
+            }
+        });
+    });
+    </script>
+</html>

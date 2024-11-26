@@ -1,0 +1,363 @@
+.main {
+    width: 100%;
+    opacity: 1;
+    left: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+}
+
+.class-search {
+    width: 37.5rem;
+    height: 4.375rem;
+    display: flex;
+    justify-content: center;
+    margin: 1.25rem;
+}
+
+.input-class {
+    width: 36.25rem;
+    height: 3.125rem;
+    border: .0625rem solid #CCCCCC;
+}
+
+.input-class:focus {
+    border-color: #007BFF;
+}
+
+.class-info {
+    width: 87.5rem;
+    opacity: 1;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    gap: .9375rem;
+}
+
+.class-info::-webkit-scrollbar {
+    display: none;
+}
+
+.container {
+    background-color: var(--back-color);
+    display: flex;
+    grid-template-columns: auto auto;
+    border-radius: .25rem;
+    width: 100%;
+    justify-content: center;
+    padding: .1563rem 0;
+}
+
+.group-text {
+    width: 12.5rem;
+    color: black;
+    text-align: center;
+    font-family: 'Pretendard-Regular';
+    font-size: 1.25rem;
+    opacity: 1;
+    align-content: center;
+}
+
+.class-list {
+    opacity: 1;
+    display: flex;
+    margin-right: auto;
+}
+
+.explorer-list {
+    opacity: 1;
+    display: flex;
+    flex-direction: column;
+    margin-right: auto ;
+}
+
+.class {
+    display: flex;
+    flex-direction: column;
+    border-radius: .25rem;
+    cursor: pointer;
+    padding: .4688rem;
+    transition: background-color 0.3s;
+}
+
+.class:hover {
+    background-color: var(--hover-color);
+}
+
+.class-img {
+    width: 6.25rem;
+    height: 6.25rem;
+}
+
+.choice-character-container {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    overflow-y: auto;
+    margin: 0 auto;
+    padding-top: .625rem;
+    gap: .625rem 1.25rem;
+}
+
+.choice-character-container::-webkit-scrollbar {
+    display: none;
+}
+
+.choice-character-info {
+    width: 24.375rem;
+    height: 7.5rem;
+    display: flex;
+    align-items: center;
+    background-color: var(--back-color);
+    padding: .3125rem .625rem;
+    border-radius: .25rem;
+    gap: .625rem;
+    cursor: pointer;
+}
+
+.choice-character-info:hover {
+    background-color: var(--hover-color);
+}
+
+.cropping {
+    width: 5.625rem;
+    height: 5.625rem;
+    overflow: hidden;
+    position: relative;
+}
+
+.cropping img {
+    width: 100%;
+    height: auto;
+    position: absolute;
+    top: 65%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1.8);
+}
+
+.text-container {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: .625rem;
+}
+
+.no-nickname-text {
+    font-size: 1.125rem;
+}
+
+.no-nickname-text img {
+    height: 1.25rem;
+    width: auto;
+}
+
+.yes-nickname-text {
+    font-size: 1.375rem;
+}
+
+.sch-check {
+    width: 3.125rem;
+    height: 3.125rem;
+    background-image: url("/images/buttons/checkboxDefault.png");
+    transition: background-image 0.3s ease-in;
+    background-size: cover;
+}
+
+.sch-check.checked {
+    background-image: url("/images/buttons/checkboxChecked.png");
+    background-size: cover;
+}
+
+.class-name {
+    height: 1.25rem;
+    color: black;
+    font-family: 'Pretendard-Regular';
+    font-size: .875rem;
+    opacity: 1;
+    text-align: center;
+    align-content: center;
+}
+
+.account-container {
+    width: 90%;
+    opacity: 1;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    margin: 0 auto;
+    gap: .9375rem;
+}
+
+.account-weekly {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    gap: .625rem;
+}
+
+.account-weekly-progress {
+    display: flex;
+    flex-grow: 1;
+    gap: .625rem;
+}
+
+.account-weekly-total {
+    display: flex;
+    flex-grow: 1;
+    gap: .625rem;
+}
+
+.account-container .progress-text {
+    font-size: 1.25rem;
+}
+
+.list-setting-img {
+    width: 3.75rem;
+    height: 3.75rem;
+    padding: .3125rem;
+    margin-left: auto;
+    margin-bottom: auto;
+    border-radius: .25rem;
+    cursor: pointer;
+}
+
+.list-setting-img:hover {
+    background-color: var(--hover-color);
+    transform: scale(1.01, 1.01);
+    transition: all 0.2s;
+    box-shadow: 0rem .3125rem .3125rem -0.125rem rgba(0, 0, 0, 0.25);
+}
+
+.character-container {
+    width: 90%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.875rem 3.125rem;
+}
+
+.character-info {
+    width: 25rem;
+    aspect-ratio: 16 / 10;
+    background-color: var(--back-color);
+    display: flex;
+    justify-content: center;
+    position: relative;
+    border-radius: .25rem;
+}
+
+.character-img-info {
+    width: 33%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    justify-content: center;
+}
+
+.character-img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+}
+
+.server-img {
+    width: 15%;
+    position: absolute;
+    left: 0;
+    top: 2.8125rem;
+    aspect-ratio: 1 / 1;
+}
+
+.character-text {
+    max-width: 9.375rem;
+}
+
+.text-small {
+    font-size: .75rem;
+}
+
+.text-large {
+    font-size: 1.25rem;
+    font-weight: 500;
+}
+
+.text-larger {
+    font-size: 1.25rem;
+    font-weight: 500;
+}
+
+.text-title {
+    width: 11.5625rem;
+}
+
+.character-progress {
+    width: 57%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5%;
+}
+
+.schedule-stat {
+    cursor: pointer;
+    padding: .625rem .3125rem;
+    border-radius: .25rem;
+}
+
+.schedule-stat:hover {
+    background-color: var(--hover-color);
+    transform: scale(1.01, 1.01);
+    transition: all 0.2s;
+}
+
+.progress-container {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+}
+
+.progress-background {
+    width: 100%;
+    background-color: #e0e0e0;
+    border-radius: .625rem;
+    overflow: hidden;
+    position: relative;
+    height: 1.875rem;
+}
+
+.progress-bar {
+    width: 50%;
+    height: 100%;
+    background-color: #76c7c0;
+    transition: width 0.4s ease;
+}
+
+.progress-text {
+    margin-left: .625rem;
+    font-size: 1.125rem;
+    font-weight: bold;
+    color: #333;
+    white-space: nowrap;
+}
+
+.character-setting-img  {
+    width: 2.5rem;
+    height: 2.5rem;
+    position: absolute;
+    right: 0;
+    padding: .3125rem;
+    margin: .3125rem;
+    border-radius: .25rem;
+    cursor: pointer;
+}
+
+.character-setting-img:hover {
+    background-color: var(--hover-color);
+    transform: scale(1.1, 1.1);
+    transition: all 0.2s;
+}

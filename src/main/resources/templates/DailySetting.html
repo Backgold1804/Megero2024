@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+    <!--th:block th:replace="~{./include/head.html}"></th:block-->
+    <body>
+        <div class="sub-main">
+            <div class="nav-content">
+                <div class="setting-nav-text text-larger">일간 숙제 설정</div>
+            </div>
+            <div class="nickname-text text-larger" th:value="${char.level}">캐릭터: [[${char.nickname}]]</div>
+            <div class="check-container">
+                <div class="all-check" th:onclick="fn_ds_save_all(this,[[${char.uid}]],[[${char.level}]])">일퀘 레벨대 설정</div>
+                <div th:onclick="goDaily([[${char.uid}]])"><img class="setting-img" src="/images/buttons/btnCheck.png"/></div>
+            </div>
+            <div class="content-container">
+                <div class="content deselect-label" th:each="dlist : ${allDailyList}" th:data-uid="${dlist.uid}" th:value="${dlist.display_order}" th:onclick="fn_ds_save(this,[[${char.uid}]],[[${dlist.uid}]],'')">
+                    <img class="icon-img" th:src="@{/images/schedules/{code}.png(code=${dlist.code})}" />
+                    <div class="d-content-text">[[${dlist.title}]]</div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function fn_ds_save(d,u,t,txt) {
+                var is_check = 0;
+                if(d.className == "content")
+                is_check = 1;
+                if(is_check == 0){
+                    $.ajax    ({ 
+                        url: './save_daily_setting',
+                        data: "character_uid="+u+"&ttodo_uid="+t+"&diff_level="+txt,
+                        type: 'get',
+                        success: function()
+                        {
+                            //alert('sucess');
+                        }
+                    });
+                }else{
+                    $.ajax ({
+                        url: './delete_daily_setting',
+                        data: "character_uid="+u+"&ttodo_uid="+t,
+                        type: 'get',
+                        success: function()
+                        {
+                            //alert('sucess');
+                        }
+                    });
+                }
+            }
+
+            function fn_ds_save_all(d,u,l) {
+                $.ajax ({
+                    url: './save_daily_all',
+                    data: "character_uid="+u+"&level="+l,
+                    type: 'get',
+                    success: function()
+                    {
+                        //alert('sucess');
+                    }
+                });
+            }
+
+            $(document).ready(function() {
+                var contents = $('.content');
+                var level = $('.nickname-text').attr('value');
+
+                var uidList = [[${uidList}]];
+                
+                for (i = 0; i < contents.length; i++) {
+                    if ($(contents[i]).attr('value') > level) {
+                        $(contents[i]).removeClass('deselect-label');
+                        $(contents[i]).addClass('disable-label');
+                    }
+                    
+                    var tmp = parseInt($(contents[i]).attr('data-uid'));
+                    if (uidList.includes(tmp)) {
+                        $(contents[i]).removeClass('deselect-label');
+                    }
+                }
+            });
+            
+            $('.content').on('click', function() {
+                $(this).toggleClass('deselect-label');
+            });
+
+            $('.all-check').on('click', function() {
+                var contents = $('.content');
+                var level = $('.nickname-text').attr('value');
+
+                for (i = 0; i < contents.length; i++) {
+                    if ($(contents[i]).hasClass('disable-label') === false) {
+                        if ($(contents[i]).attr('value') <= level) {
+                            if ($(contents[i]).hasClass('deselect-label') === true) {
+                                $(contents[i]).removeClass('deselect-label');
+                            }
+                        } else {
+                            $(contents[i]).addClass('deselect-label');
+                        }
+                    }
+                }
+            });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,38 @@
+* {
+    box-sizing: border-box;
+}
+
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+:root {
+    --body-color: #DFF2EB;
+    --back-color: #B9E5E8;
+    --title-color: #95CCDD;
+    --hover-color: #7AB2D3;
+    --line-color: #4A628A;
+  
+    --warrior-color: #F95454;
+    --mage-color: #77CDFF;
+    --archer-color: #C2FFC7;
+    --rogue-color: #CDC1FF;
+    --pirate-color: #EEEEEE;
+  
+    --easy-color: #A6A6A6;
+    --normal-color: #7AACBF;
+    --hard-color: #EE6DC0;
+    --chaos-color: #616161;
+    --chaos-text-color: #F9D9B7;
+    --extreme-color: #5B5B5B;
+    --extreme-text-color: #F25749;
+}
+
+body {
+    font-family: 'Pretendard-Regular';
+    font-size: 14px;
+    background-color: var(--body-color);
+}

@@ -1,0 +1,150 @@
+Error: Unable to access jarfile mymaple-0.0.1-SNAPSHOT.jar
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.3.4)
+
+2024-10-05T16:52:06.796Z  INFO 5627 --- [mymaple] [           main] com.example.mymaple.MymapleApplication   : Starting MymapleApplication v0.0.1-SNAPSHOT using Java 21.0.4 with PID 5627 (/root/mymaple/build/libs/mymaple-0.0.1-SNAPSHOT.jar started by root in /root/mymaple)
+2024-10-05T16:52:06.809Z  INFO 5627 --- [mymaple] [           main] com.example.mymaple.MymapleApplication   : No active profile set, falling back to 1 default profile: "default"
+2024-10-05T16:52:08.467Z  INFO 5627 --- [mymaple] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2024-10-05T16:52:08.494Z  INFO 5627 --- [mymaple] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-10-05T16:52:08.495Z  INFO 5627 --- [mymaple] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.30]
+2024-10-05T16:52:08.728Z  INFO 5627 --- [mymaple] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-10-05T16:52:08.732Z  INFO 5627 --- [mymaple] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1786 ms
+2024-10-05T16:52:09.495Z  WARN 5627 --- [mymaple] [           main] ion$DefaultTemplateResolverConfiguration : Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
+2024-10-05T16:52:09.598Z  INFO 5627 --- [mymaple] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2024-10-05T16:52:09.624Z  INFO 5627 --- [mymaple] [           main] com.example.mymaple.MymapleApplication   : Started MymapleApplication in 3.64 seconds (process running for 4.459)
+2024-10-05T16:52:25.269Z  INFO 5627 --- [mymaple] [nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-10-05T16:52:25.271Z  INFO 5627 --- [mymaple] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-10-05T16:52:25.272Z  INFO 5627 --- [mymaple] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.3.4)
+
+2024-10-05T16:56:17.771Z  INFO 5690 --- [mymaple] [           main] com.example.mymaple.MymapleApplication   : Starting MymapleApplication v0.0.1-SNAPSHOT using Java 21.0.4 with PID 5690 (/root/mymaple/build/libs/mymaple-0.0.1-SNAPSHOT.jar started by root in /root/mymaple)
+2024-10-05T16:56:17.775Z  INFO 5690 --- [mymaple] [           main] com.example.mymaple.MymapleApplication   : No active profile set, falling back to 1 default profile: "default"
+2024-10-05T16:56:19.411Z  INFO 5690 --- [mymaple] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2024-10-05T16:56:19.440Z  INFO 5690 --- [mymaple] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-10-05T16:56:19.441Z  INFO 5690 --- [mymaple] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.30]
+2024-10-05T16:56:19.670Z  INFO 5690 --- [mymaple] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-10-05T16:56:19.673Z  INFO 5690 --- [mymaple] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1813 ms
+2024-10-05T16:56:20.493Z  WARN 5690 --- [mymaple] [           main] ion$DefaultTemplateResolverConfiguration : Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
+2024-10-05T16:56:20.598Z  INFO 5690 --- [mymaple] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2024-10-05T16:56:20.623Z  INFO 5690 --- [mymaple] [           main] com.example.mymaple.MymapleApplication   : Started MymapleApplication in 3.585 seconds (process running for 4.408)
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.3.4)
+
+2024-10-23T15:03:58.782Z  INFO 1703 --- [mymaple] [           main] com.example.mymaple.MymapleApplication   : Starting MymapleApplication v0.0.1-SNAPSHOT using Java 21.0.4 with PID 1703 (/root/mymaple/build/libs/mymaple-0.0.1-SNAPSHOT.jar started by root in /root/mymaple)
+2024-10-23T15:03:58.792Z  INFO 1703 --- [mymaple] [           main] com.example.mymaple.MymapleApplication   : No active profile set, falling back to 1 default profile: "default"
+2024-10-23T15:04:01.166Z  INFO 1703 --- [mymaple] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2024-10-23T15:04:01.197Z  INFO 1703 --- [mymaple] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-10-23T15:04:01.198Z  INFO 1703 --- [mymaple] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.30]
+2024-10-23T15:04:01.499Z  INFO 1703 --- [mymaple] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-10-23T15:04:01.500Z  INFO 1703 --- [mymaple] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2589 ms
+2024-10-23T15:04:02.584Z  WARN 1703 --- [mymaple] [           main] ion$DefaultTemplateResolverConfiguration : Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
+2024-10-23T15:04:02.734Z  INFO 1703 --- [mymaple] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2024-10-23T15:04:02.795Z  INFO 1703 --- [mymaple] [           main] com.example.mymaple.MymapleApplication   : Started MymapleApplication in 5.031 seconds (process running for 6.439)
+2024-10-23T15:04:41.326Z  INFO 1703 --- [mymaple] [nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-10-23T15:04:41.326Z  INFO 1703 --- [mymaple] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-10-23T15:04:41.329Z  INFO 1703 --- [mymaple] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.3.4)
+
+2024-10-23T15:16:50.641Z  INFO 2122 --- [mymaple] [           main] com.example.mymaple.MymapleApplication   : Starting MymapleApplication v0.0.1-SNAPSHOT using Java 21.0.4 with PID 2122 (/root/mymaple/build/libs/mymaple-0.0.1-SNAPSHOT.jar started by root in /root/mymaple)
+2024-10-23T15:16:50.646Z  INFO 2122 --- [mymaple] [           main] com.example.mymaple.MymapleApplication   : No active profile set, falling back to 1 default profile: "default"
+2024-10-23T15:16:52.523Z  INFO 2122 --- [mymaple] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2024-10-23T15:16:52.559Z  INFO 2122 --- [mymaple] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-10-23T15:16:52.559Z  INFO 2122 --- [mymaple] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.30]
+2024-10-23T15:16:52.831Z  INFO 2122 --- [mymaple] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-10-23T15:16:52.833Z  INFO 2122 --- [mymaple] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2089 ms
+2024-10-23T15:16:53.780Z  WARN 2122 --- [mymaple] [           main] ion$DefaultTemplateResolverConfiguration : Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
+2024-10-23T15:16:53.893Z  INFO 2122 --- [mymaple] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2024-10-23T15:16:53.935Z  INFO 2122 --- [mymaple] [           main] com.example.mymaple.MymapleApplication   : Started MymapleApplication in 4.138 seconds (process running for 5.448)
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.3.4)
+
+2024-10-23T15:33:26.208Z  INFO 7990 --- [mymaple] [           main] com.example.mymaple.MymapleApplication   : Starting MymapleApplication v0.0.1-SNAPSHOT using Java 21.0.4 with PID 7990 (/root/mymaple/build/libs/mymaple-0.0.1-SNAPSHOT.jar started by root in /root/mymaple)
+2024-10-23T15:33:26.213Z  INFO 7990 --- [mymaple] [           main] com.example.mymaple.MymapleApplication   : No active profile set, falling back to 1 default profile: "default"
+2024-10-23T15:33:28.269Z  INFO 7990 --- [mymaple] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2024-10-23T15:33:28.298Z  INFO 7990 --- [mymaple] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-10-23T15:33:28.298Z  INFO 7990 --- [mymaple] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.30]
+2024-10-23T15:33:28.571Z  INFO 7990 --- [mymaple] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-10-23T15:33:28.573Z  INFO 7990 --- [mymaple] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2261 ms
+2024-10-23T15:33:29.564Z  WARN 7990 --- [mymaple] [           main] ion$DefaultTemplateResolverConfiguration : Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
+2024-10-23T15:33:29.693Z  INFO 7990 --- [mymaple] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2024-10-23T15:33:29.747Z  INFO 7990 --- [mymaple] [           main] com.example.mymaple.MymapleApplication   : Started MymapleApplication in 4.335 seconds (process running for 5.616)
+2024-10-23T15:33:51.482Z  INFO 7990 --- [mymaple] [nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-10-23T15:33:51.482Z  INFO 7990 --- [mymaple] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-10-23T15:33:51.486Z  INFO 7990 --- [mymaple] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.3.4)
+
+2024-10-23T16:00:28.595Z  INFO 8238 --- [mymaple] [           main] com.example.mymaple.MymapleApplication   : Starting MymapleApplication v0.0.1-SNAPSHOT using Java 21.0.4 with PID 8238 (/root/mymaple/build/libs/mymaple-0.0.1-SNAPSHOT.jar started by root in /root/mymaple)
+2024-10-23T16:00:28.599Z  INFO 8238 --- [mymaple] [           main] com.example.mymaple.MymapleApplication   : No active profile set, falling back to 1 default profile: "default"
+2024-10-23T16:00:30.484Z  INFO 8238 --- [mymaple] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2024-10-23T16:00:30.523Z  INFO 8238 --- [mymaple] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-10-23T16:00:30.524Z  INFO 8238 --- [mymaple] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.30]
+2024-10-23T16:00:30.775Z  INFO 8238 --- [mymaple] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-10-23T16:00:30.777Z  INFO 8238 --- [mymaple] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2084 ms
+2024-10-23T16:00:31.713Z  WARN 8238 --- [mymaple] [           main] ion$DefaultTemplateResolverConfiguration : Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
+2024-10-23T16:00:31.839Z  INFO 8238 --- [mymaple] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2024-10-23T16:00:31.884Z  INFO 8238 --- [mymaple] [           main] com.example.mymaple.MymapleApplication   : Started MymapleApplication in 4.065 seconds (process running for 5.31)
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.3.4)
+
+2024-10-24T16:09:05.900Z  INFO 10534 --- [mymaple] [           main] com.example.mymaple.MymapleApplication   : Starting MymapleApplication v0.0.1-SNAPSHOT using Java 21.0.4 with PID 10534 (/root/mymaple/build/libs/mymaple-0.0.1-SNAPSHOT.jar started by root in /root/mymaple)
+2024-10-24T16:09:05.906Z  INFO 10534 --- [mymaple] [           main] com.example.mymaple.MymapleApplication   : No active profile set, falling back to 1 default profile: "default"
+2024-10-24T16:09:08.215Z  INFO 10534 --- [mymaple] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2024-10-24T16:09:08.251Z  INFO 10534 --- [mymaple] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-10-24T16:09:08.252Z  INFO 10534 --- [mymaple] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.30]
+2024-10-24T16:09:08.607Z  INFO 10534 --- [mymaple] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-10-24T16:09:08.608Z  INFO 10534 --- [mymaple] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2584 ms
+2024-10-24T16:09:09.790Z  WARN 10534 --- [mymaple] [           main] ion$DefaultTemplateResolverConfiguration : Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
+2024-10-24T16:09:09.928Z  INFO 10534 --- [mymaple] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2024-10-24T16:09:09.982Z  INFO 10534 --- [mymaple] [           main] com.example.mymaple.MymapleApplication   : Started MymapleApplication in 5.103 seconds (process running for 6.584)

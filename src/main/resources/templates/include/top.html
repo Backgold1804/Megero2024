@@ -1,0 +1,18 @@
+<div class="header">
+    <h2>Megero</h2>
+    <div class="h_right">
+      <div class="h_btn_area">
+        <div class="btn_left">
+          <div th:if="${userName}">
+            <span class="L_edit" style="font-size: 14px;">
+              <img th:src="${userName.world_img}" />[[${userName.nickname}]] 님</span><!--label th:text="${userName} + 님"></label-->
+            <a th:href="@{/logout}" class="btn_small btn_white_s" role="button">로그아웃</a>
+          </div>
+          <div th:if="!${userName}">
+            <div class="g-signin2" data-onsuccess="onSignIn"></div>
+            <a href="/oauth2/authorization/google"><img src="/images/buttons/btnSinginGoogle.png" href="/oauth2/authorization/google" /></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

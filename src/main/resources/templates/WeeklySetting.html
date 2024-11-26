@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+    <meta http-equiv="Expires" content="Mon, 06 Jan 1990 00:00:01 GMT">
+    <meta http-equiv="Expires" content="-1">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
+
+    <!--th:block th:replace="~{./include/head.html}"></th:block-->
+    <header>
+    <script>
+        function fn_ws_save_sel(obj, character_uid,ttodo_uid,diff_level) {
+            var id = $(obj).attr('id'); 
+            var cnt = $("#"+id+ " option:selected").val();
+            fn_ws_save(character_uid,ttodo_uid,diff_level,cnt);
+        }
+
+        function fn_ws_save(character_uid,ttodo_uid,diff_level,set_headcount) {
+            $.ajax    ({ 
+                url: './insert_m_todo',
+                data: "character_uid="+character_uid+"&ttodo_uid="+ttodo_uid+"&diff_level="+diff_level+"&set_headcount="+set_headcount,
+                type: 'get',
+                success: function()
+                {
+                    //alert('sucess');
+                }
+            });
+        }
+
+        function add_ws_option(obj, v,character_uid,ttodo_uid,diff_level,set_headcount){
+            var o = "#"+obj;
+            var headcount = $(o).attr('def-value');
+            fn_ws_save(character_uid,ttodo_uid,diff_level,set_headcount);
+            $(o+" option").remove();
+            for(var i=1; i <= v; i++) {
+                var option = $("<option value='"+i+"' "+((headcount == i)?"selected":"")+">" + i + "인" + "</option>");
+                $(o).append(option);
+            }
+        };
+
+        $(document).ready(function () {
+            $(document).on('click', '.diff-select input[type="radio"]', function() {
+                var $this = $(this);
+
+                if ($this.data('checked')) {
+                    $this.prop('checked', false).data('checked', false);
+                } else {
+                    $(`input[name="${$this.attr('name')}"]`).data('checked', false);
+                    $this.data('checked', true);
+                }
+            });
+        });
+    </script>
+    </header>
+    <body>
+        <div class="sub-main">
+            <div class="nav-content">
+                <div class="setting-nav-text text-larger">주간 보스 설정</div>
+            </div>
+            <div class="nickname-text text-larger" th:value="${char.level}">캐릭터: [[${char.nickname}]]</div>
+            <div class="check-container">
+                <div class="w-all-check">보스 한번에 설정</div>
+                <input type="checkbox" id="check-box" /><label for="check-box" class="check-box-label"></label>
+                <div th:onclick="goWeekly([[${char.uid}]])"><img class="setting-img" src="/images/buttons/btnCheck.png"/></div>
+            </div>
+            <div class="w-content-container">
+                <span class="w-content" th:each="wlist : ${allWeeklyList}">
+                    <img class="w-icon-img" th:src="@{/images/schedules/{code}.png(code=${wlist.code})}" />
+                    <div class="diff-select">
+                        <input type="radio" th:unless="${wlist.easy == 0}"    th:id="'easy-'+${wlist.code}"    th:name="'diff-level-'+${wlist.code}" value="easy"   th:checked="${wlist.diff_level == 'easy'}" />
+                        <label th:unless="${wlist.easy == 0}"    th:for="'easy-'+${wlist.code}"    class="diff-level easy"    th:onclick="add_ws_option([[${'headcount-'+wlist.code}]], [[${wlist.easy}]], [[${char.uid}]], [[${wlist.uid}]], 'easy', 1)"></label>
+                        <input type="radio" th:unless="${wlist.normal == 0}"  th:id="'normal-'+${wlist.code}"  th:name="'diff-level-'+${wlist.code}" value="normal"  th:checked="${wlist.diff_level == 'normal'}"/>
+                        <label th:unless="${wlist.normal == 0}"  th:for="'normal-'+${wlist.code}"  class="diff-level normal"  th:onclick="add_ws_option([[${'headcount-'+wlist.code}]], [[${wlist.normal}]], [[${char.uid}]], [[${wlist.uid}]], 'normal', 1)"></label>
+                        <input type="radio" th:unless="${wlist.hard == 0}"    th:id="'hard-'+${wlist.code}"    th:name="'diff-level-'+${wlist.code}" value="hard"    th:checked="${wlist.diff_level == 'hard'}"/>
+                        <label th:unless="${wlist.hard == 0}"    th:for="'hard-'+${wlist.code}"    class="diff-level hard"    th:onclick="add_ws_option([[${'headcount-'+wlist.code}]], [[${wlist.hard}]], [[${char.uid}]], [[${wlist.uid}]], 'hard', 1)"></label>
+                        <input type="radio" th:unless="${wlist.chaos == 0}"   th:id="'chaos-'+${wlist.code}"   th:name="'diff-level-'+${wlist.code}" value="chaos"   th:checked="${wlist.diff_level == 'chaos'}"/>
+                        <label th:unless="${wlist.chaos == 0}"   th:for="'chaos-'+${wlist.code}"   class="diff-level chaos"   th:onclick="add_ws_option([[${'headcount-'+wlist.code}]], [[${wlist.chaos}]], [[${char.uid}]], [[${wlist.uid}]], 'chaos', 1)"></label>
+                        <input type="radio" th:unless="${wlist.extreme == 0}" th:id="'extreme-'+${wlist.code}" th:name="'diff-level-'+${wlist.code}" value="extreme" th:checked="${wlist.diff_level == 'extreme'}"/>
+                        <label th:unless="${wlist.extreme == 0}" th:for="'extreme-'+${wlist.code}" class="diff-level extreme" th:onclick="add_ws_option([[${'headcount-'+wlist.code}]], [[${wlist.extreme}]], [[${char.uid}]], [[${wlist.uid}]], 'extreme', 1)"></label>
+                    </div>
+                    <span class="headcount">
+                        <select style="width:100px" th:id="'headcount-'+${wlist.code}" th:name="'headcount-'+${wlist.code}" th:onchange="fn_ws_save_sel(this,[[${char.uid}]],[[${wlist.uid}]],-1)" th:def-value="${wlist.set_headcount}">
+                            <option>====</option>
+                        </select>
+                    </span>
+                    <script>
+                        if([[${wlist.diff_level == 'easy'}]])
+                            add_ws_option('[[${'headcount-'+wlist.code}]]', [[${wlist.easy}]], [[${char.uid}]], [[${wlist.uid}]], 'easy', 1);
+                        if([[${wlist.diff_level == 'normal'}]])
+                            add_ws_option('[[${'headcount-'+wlist.code}]]', [[${wlist.normal}]], [[${char.uid}]], [[${wlist.uid}]], 'normal', 1);
+                        if([[${wlist.diff_level == 'hard'}]])
+                            add_ws_option('[[${'headcount-'+wlist.code}]]', [[${wlist.hard}]], [[${char.uid}]], [[${wlist.uid}]], 'hard', 1);
+                        if([[${wlist.diff_level == 'chaos'}]])
+                            add_ws_option('[[${'headcount-'+wlist.code}]]', [[${wlist.chaos}]], [[${char.uid}]], [[${wlist.uid}]], 'chaos', 1);
+                        if([[${wlist.diff_level == 'extreme'}]])
+                            add_ws_option('[[${'headcount-'+wlist.code}]]', [[${wlist.extreme}]], [[${char.uid}]], [[${wlist.uid}]], 'extreme', 1);
+                    </script>
+                </span>                
+            </div>
+        </div>
+    </body>
+
+
+</html>

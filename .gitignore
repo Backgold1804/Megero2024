@@ -1,0 +1,10 @@
+/src/main/resources/appliction-secret.yml
+/src/main/resources/application-oauth.yml
+/build/resources/main/application-oauth.yml
+/build/resources/main/appliction-secret.yml
+/out__/
+/out/
+/build/
+/bin/
+# 프로젝트 제외 경로
+/.gradle/

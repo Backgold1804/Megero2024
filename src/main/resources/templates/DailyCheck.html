@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+    <!--th:block th:replace="~{./include/head.html}"></th:block-->
+    <body>
+        <div class="sub-main">
+            <div class="nav-content">
+                <div class="nav-text text-larger active" th:onclick="goDaily([[${uid}]])">일간 숙제</div>
+                <div class="nav-text text-larger"  th:onclick="goWeekly([[${uid}]])">주간 숙제</div>
+            </div>
+            <div class="nickname-text text-larger">캐릭터: [[${char.nickname}]]</div>
+            <div class="check-container">
+                <div class="all-check text-larger">모두 완료</div>
+                <img class="setting-img" src="/images/buttons/btnList.png"  th:onclick="goDailySetting([[${uid}]])"/>
+            </div>
+            <div class="content-container">
+                <div class="content" th:each="daily : ${dailyList}" th:onclick="fn_dc_save(this,[[${daily.uid}]])" th:classappend="${daily.clear_people == 1} ? clear-label : ''">
+                    <img class="icon-img" th:src="@{/images/schedules/{code}.png(code=${daily.code})}" />
+                    <div class="d-content-text">[[${daily.title}]]</div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function fn_dc_save(d,v) {
+                var is_clear = 0;
+                if(d.className == "content")
+                    is_clear = 1;
+                    
+                $.ajax    ({ 
+                    url: './save_daily',
+                    data: "uid="+v+"&is_clear="+is_clear,
+                    type: 'get',
+                    success: function()
+                    {
+                        //alert('sucess');
+                    }
+                });
+            }
+
+            function fn_dc_all_save(uid, v) {
+                $.ajax    ({ 
+                    url: './allsave_daily',
+                    data: "uid="+uid+"&is_clear="+v,
+                    type: 'get',
+                    success: function()
+                    {
+                        //alert('sucess');
+                    }
+                });
+            }
+
+            function fn_dc_all_check() {
+                var contents = $('.content');
+                var allHaveClass = contents.length === contents.filter('.clear-label').length;
+
+                if (allHaveClass) {
+                    $('.all-check').text("모두 완료 해제");
+                } else {
+
+                    $('.all-check').text("모두 완료");
+                }
+            };
+
+            $(document).ready(fn_dc_all_check());
+
+            $('.content').on('click', function() {
+                $(this).toggleClass('clear-label');
+                
+                fn_dc_all_check();
+            });
+
+            $('.all-check').on('click', function() {
+                var contents = $('.content');
+                var allHaveClass = contents.length === contents.filter('.clear-label').length;
+
+                if (allHaveClass) {
+                    fn_dc_all_save([[${uid}]], 0);
+                    contents.removeClass('clear-label');
+                    $(this).text('모두 완료');
+                } else {
+                    fn_dc_all_save([[${uid}]], 1);
+                    contents.addClass('clear-label');
+                    $(this).text("모두 완료 해제");
+                }
+            });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <div class="sub-main">
+            <div class="choice-character-container">
+                <div class="choice-character-info" th:each="item : ${list}" th:uid="${item.uid}" style="align-items: center;">
+                    <div class="cropping"><img class="choice-class-img" th:src="${item.img_path}" /></div>
+                    <div class="text-container">
+                        <div class="no-nickname-text"><img th:src="${item.world_img}" /> [[${item.classname}]]</div>
+                        <div class="yes-nickname-text">Lv.[[${item.level}]] [[${item.nickname}]]</div>
+                    </div>
+                    <div class="sch-check" th:classappend="${item.use_yn} == 1 ? checked : ''"></div>
+                </div>
+            </div>
+        </div>
+    </body>
+
+    <script>
+        $(document).on('click', '.choice-character-info', function() {
+            var uid = $(this).attr('uid');
+            var schCheck = $(this).find('.sch-check');
+
+            $.ajax ({ 
+                url: './update_charactor_yn',
+                data: "uid="+uid,
+                type: 'get',
+                success: function()
+                {
+                    alert('저장되었습니다.');
+                }
+            });
+
+            schCheck.toggleClass('checked');
+        });
+    </script>
+</html>
+

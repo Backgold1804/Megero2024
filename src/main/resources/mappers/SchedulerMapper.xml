@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mabatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mymaple.repository.SchedulerMapper">
+    <select id="getCharacter" resultType="com.example.mymaple.vo.CharacterVO" parameterType="com.example.mymaple.vo.CharacterVO">
+        SELECT *
+        FROM mymaple.character
+        WHERE member_uid = #{member_uid}
+        AND character_key = #{character_key}
+    </select>
+
+    <select id="getCharacterMain" resultType="com.example.mymaple.vo.CharacterVO" parameterType="Integer">
+        SELECT *
+        , fn_classname(class_uid) classname
+        , (SELECT img FROM tcode WHERE use_yn = 1 AND title = world_name) world_img
+        FROM mymaple.character
+        WHERE member_uid = #{member_uid}
+        AND main_yn = 1
+    </select>
+
+    <select id="getCharacterList" resultType="com.example.mymaple.vo.CharacterVO" parameterType="Integer">
+        SELECT *
+        , fn_classname(class_uid) classname
+        , (SELECT img FROM tcode WHERE use_yn = 1 AND title = world_name) world_img
+        FROM mymaple.character
+        WHERE member_uid = #{member_uid}
+        AND img_path != ""
+        ORDER BY character.level DESC, uid ASC
+    </select>
+
+    <select id="isApiKey" resultType="Integer" parameterType="Integer">
+        SELECT COUNT(1) FROM mymaple.users WHERE user_id = #{user_id} AND api_key IS NOT NULL OR api_key != ''
+    </select>
+    <select id="isMainYN" resultType="Integer" parameterType="Integer">
+        SELECT COUNT(1) FROM mymaple.character WHERE member_uid = #{user_id} AND main_yn = 1;
+    </select>
+
+    <select id="getSchCharacterList" resultType="com.example.mymaple.vo.CharacterVO">
+        SELECT *
+            , fn_classname(class_uid) classname
+            , (SELECT img FROM tcode WHERE use_yn = 1 AND title = world_name) world_img
+            , (SELECT COUNT(1) FROM todo, ttodo  WHERE todo.ttodo_uid = ttodo.uid AND todo.character_uid = c.uid AND ttodo.code LIKE 'D%') daily_count
+            , (SELECT COUNT(1) FROM todo, ttodo  WHERE todo.ttodo_uid = ttodo.uid AND todo.character_uid = c.uid AND ttodo.code LIKE 'M%') weekly_count
+            , (SELECT COUNT(1) FROM todo, ttodo  WHERE todo.ttodo_uid = ttodo.uid AND todo.character_uid = c.uid AND ttodo.code LIKE 'D%' AND todo.clear_people > 0) daily_clear_count
+            , (SELECT COUNT(1) FROM todo, ttodo  WHERE todo.ttodo_uid = ttodo.uid AND todo.character_uid = c.uid AND ttodo.code LIKE 'M%' AND todo.clear_people > 0) weekly_clear_count
+        FROM mymaple.character c
+        WHERE member_uid = #{member_uid}
+        AND img_path != ""
+        AND use_yn = 1
+        ORDER BY main_yn DESC, c.level;
+    </select>
+
+    <select id="getCharacterInfo" resultType="com.example.mymaple.vo.CharacterVO">
+        SELECT *
+        FROM mymaple.character
+        WHERE uid = #{character_uid}
+    </select>
+
+    <select id="getSchSummary" resultType="com.example.mymaple.vo.scheduler.SchSummaryVO">
+        SELECT users.user_id
+            , SUM(IF(todo.clear_people > 0 AND todo.ttodo_uid BETWEEN 1 AND 22, 1, 0)) AS do_cnt
+            , SUM(IF(todo.ttodo_uid BETWEEN 1 AND 22 ,1,0)) AS all_cnt
+            , CAST(SUM(IF(todo.clear_people > 0, (
+            CASE todo.diff_level
+                WHEN 'easy'     THEN ttodo.easy_price
+                WHEN 'normal'   THEN ttodo.normal_price
+                WHEN 'hard'     THEN ttodo.hard_price
+                WHEN 'chaos'    THEN ttodo.chaos_price
+                WHEN 'extreme'  THEN ttodo.extreme_price
+            END) / todo.clear_people,0)) AS UNSIGNED) AS price
+        FROM users JOIN mymaple.character ON character.member_uid = users.user_id
+        LEFT OUTER JOIN todo ON todo.character_uid = character.uid
+        LEFT OUTER JOIN ttodo ON todo.ttodo_uid BETWEEN 1 AND 22  AND todo.ttodo_uid = ttodo.uid
+        WHERE users.user_id = #{uid};
+    </select>
+
+    <select id="getDailyList" resultType="com.example.mymaple.vo.scheduler.CharScheduleVO">
+        SELECT *
+            , (SELECT title FROM ttodo WHERE ttodo.uid = todo.ttodo_uid) title
+            , (SELECT code FROM ttodo WHERE ttodo.uid = todo.ttodo_uid) code
+        FROM todo
+        WHERE character_uid = #{character_uid}
+        AND ttodo_uid &gt; 31
+        AND ttodo_uid &lt; 48;
+    </select>
+
+    <select id="getWeeklyList" resultType="com.example.mymaple.vo.scheduler.CharScheduleVO">
+        SELECT *
+            , (SELECT title FROM ttodo WHERE ttodo.uid = todo.ttodo_uid) title
+            , (SELECT code FROM ttodo WHERE ttodo.uid = todo.ttodo_uid) code
+        FROM todo
+        WHERE character_uid = #{character_uid}
+        AND ttodo_uid &gt; 0
+        AND ttodo_uid &lt; 23;
+    </select>
+
+    <select id="getAllDailyList" resultType="com.example.mymaple.vo.scheduler.ScheduleVO">
+        SELECT uid
+            , ttodo.code
+            , title
+            , display_order
+        FROM ttodo
+        WHERE ttodo.code LIKE 'D%';
+    </select>
+
+    <select id="getAllWeeklyList" parameterType="Integer" resultType="com.example.mymaple.vo.scheduler.ScheduleVO">
+        SELECT uid
+            , ttodo.code
+            , title
+            , easy
+            , normal
+            , hard
+            , chaos
+            , extreme
+            , display_order
+            , (SELECT set_headcount FROM todo WHERE ttodo.uid = todo.ttodo_uid AND character_uid = #{uid}) set_headcount
+            , (SELECT MAX(diff_level) FROM todo WHERE ttodo.uid = todo.ttodo_uid AND character_uid = #{uid}) diff_level
+        FROM ttodo
+        WHERE ttodo.code LIKE 'M%';
+    </select>
+
+    <update id="save_daily" parameterType="Map">
+        <if test='is_clear != -1'>
+            UPDATE todo SET clear_people = 1 WHERE uid = #{uid}
+        </if>
+        <if test='is_clear == -1'>
+            UPDATE todo SET clear_people = 0 WHERE uid = #{uid}
+        </if>
+    </update>
+
+    <update id="allsave_daily" parameterType="Map">
+        update todo
+        set clear_people = #{is_clear}
+        WHERE character_uid = #{uid}
+        AND ttodo_uid &gt; 31
+        AND ttodo_uid &lt; 48;
+    </update>
+
+    <update id="save_weekly" parameterType="Map">
+        <if test='is_clear != -1'>
+            UPDATE todo SET clear_people = set_headcount WHERE uid = #{uid};
+        </if>
+        <if test='is_clear == -1'>
+            UPDATE todo SET clear_people = 0 WHERE uid = #{uid};
+        </if>
+    </update>
+
+    <update id="allsave_weekly" parameterType="Map">
+        <if test='is_clear == 1'>
+            UPDATE todo SET clear_people = set_headcount WHERE character_uid = #{uid} AND ttodo_uid &gt; 0 AND ttodo_uid &lt; 23;
+        </if>
+        <if test='is_clear == 0'>
+            UPDATE todo SET clear_people = 0 WHERE character_uid = #{uid} AND ttodo_uid &gt; 0 AND ttodo_uid &lt; 23;
+        </if>
+    </update>
+
+    <insert id="insertTodo" parameterType="Map">
+        INSERT INTO todo(character_uid, ttodo_uid, diff_level) VALUE (#{character_uid},#{ttodo_uid},#{diff_level})
+    </insert>
+
+    <delete id="deleteTodo" parameterType="Map">
+        DELETE FROM todo WHERE character_uid = #{character_uid} AND ttodo_uid = #{ttodo_uid}
+    </delete>
+
+    <insert id="insertAllTodo"  parameterType="Map">
+        INSERT INTO todo(character_uid, ttodo_uid, diff_level)
+        SELECT #{character_uid}, uid, ''
+        FROM ttodo
+        WHERE ttodo.code LIKE 'D%' AND display_order &lt;= #{level}
+        AND NOT EXISTS (SELECT 1 FROM todo WHERE character_uid = #{character_uid}  AND ttodo_uid = ttodo.uid);
+    </insert>
+
+    <select id="countTodo" resultType="Integer" parameterType="Map">
+        SELECT COUNT(1) cnt FROM todo WHERE character_uid = #{character_uid} AND ttodo_uid = #{ttodo_uid};
+    </select>
+
+    <update id="updateMtodo" parameterType="Map">
+        UPDATE todo
+        SET set_headcount=#{set_headcount}
+        <if test="diff_level != '-1'">
+           ,diff_level=#{diff_level}
+        </if>
+        WHERE character_uid = #{character_uid} AND ttodo_uid = #{ttodo_uid};
+    </update>
+
+    <insert id="insertMtodo" parameterType="Map">
+        INSERT INTO todo (character_uid, ttodo_uid, diff_level, set_headcount)
+        VALUE (#{character_uid}, #{ttodo_uid}, #{diff_level}, #{set_headcount})
+    </insert>
+
+    <update id="updateCharactorYN" parameterType="Integer">
+        UPDATE mymaple.character SET use_yn = IF(use_yn = 1,0,1) WHERE uid = #{uid}
+    </update>
+</mapper>

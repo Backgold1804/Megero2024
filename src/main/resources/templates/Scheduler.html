@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+    <th:block th:replace="~{./include/head.html}"></th:block>
+    <body>
+    <div class="Wpop">
+        <div th:replace="~{./include/top.html}"></div>
+        <!-- //header -->
+        <div class="cont_area">
+            <div class="cont">
+                <div class="box">
+                    <div class="tab_area">
+                        <div class="tab_nav col3">
+                        <ul class="tab_list">
+                            <a href="/class-feature"><li class="nav-class-feature">직업 특징 및 추천</li></a>
+                            <li class="nav-scheduler active">스케줄러</li>
+                        </ul>
+                        </div>
+
+                        <div class="main">
+                            <div class="account-container">
+                                <div class="account-weekly">
+                                    <div class="account-weekly-progress">
+                                        <div class="text-larger text-title">주간 보스 진척도</div>
+                                        <div class="progress-container">
+                                            <div class="progress-background" th:attr="data-value=${summary.all_cnt}">
+                                                <div class="progress-bar" th:attr="data-value=${summary.do_cnt}"></div>
+                                            </div>
+                                            <div class="progress-text">50%</div>
+                                        </div>
+                                    </div>
+                                    <div class="account-weekly-total">
+                                        <div class="text-larger text-title">주간 보스 수익</div>
+                                        <div class="text-larger" th:text="${#numbers.formatInteger(summary.price, 3, 'COMMA') + '메소'}"></div>
+                                    </div>
+                                </div>
+                                <div  th:onclick="goSchedulerSetting([[${summary.user_id}]])"><img class="list-setting-img" src="/images/buttons/btnList.png"/></div>
+                            </div>
+
+                            <div class="character-container">
+                                <div class="character-info" th:each="char : ${charList}">
+                                    <div class="character-img-info">
+                                        <img class="character-img" th:src="${char.img_path}" />
+                                        <img class="server-img" th:src="${char.world_img}" />
+                                        <div class="character-text text-small">Lv.[[${char.level}]] [[${char.classname}]]</div>
+                                        <div class="character-text text-large">[[${char.nickname}]]</div>
+                                    </div>
+                                    <div class="character-progress">
+                                        <div class="schedule-stat" th:attr="uid=${char.uid}, group=1">
+                                            <div class="text-large">일간 숙제</div>
+                                            <div class="progress-container">
+                                                <div class="progress-background" th:attr="data-value=${char.daily_count}">
+                                                    <div class="progress-bar" th:attr="data-value=${char.daily_clear_count}"></div>
+                                                </div>
+                                                <div class="progress-text">50%</div>
+                                            </div>
+                                        </div>
+                                        <div class="schedule-stat" th:attr="uid=${char.uid}, group=2">
+                                            <div class="text-large">주간 보스</div>
+                                            <div class="progress-container">
+                                                <div class="progress-background" th:attr="data-value=${char.weekly_count}">
+                                                    <div class="progress-bar" th:attr="data-value=${char.weekly_clear_count}"></div>
+                                                </div>
+                                                <div class="progress-text">50%</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <img class="character-setting-img" src="/images/buttons/btnSetting.png" />
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="info_popup SJpop" style="top: 50%; left: 50%; transform: translate(-50%, -50%); display: none;">
+                            <div class="header">
+                                <div></div>
+                                <button type="button" class="pop_close"></button>
+                            </div>
+                            <div id="pop_load" class="cont">
+
+                            </div>
+                        </div>
+
+                        <div class="dim" style="display: none;"></div>
+
+                        <script>
+                            var obj = $(".progress-background");
+                            for(var i = 0;i<obj.length;i++){
+                                var progressBackground = $(".progress-background:eq(" + i + ")").attr("data-value");
+                                var progressBar = $(".progress-bar:eq(" + i + ")").attr("data-value");
+                                var progressText = $(".progress-text:eq(" + i + ")").attr("data-value");
+                                if(progressBackground != undefined){
+                                    var maxValue = parseInt(progressBackground);
+                                    var currentValue = parseInt(progressBar);
+                                    var percentage = 0;
+
+                                    if (maxValue != 0)
+                                        percentage = Math.round((currentValue / maxValue) * 100);
+                                        
+
+                                    $(".progress-bar:eq(" + i + ")").css("width",percentage+'%');
+                                    $(".progress-text:eq(" + i + ")").text(percentage+'%');
+                                }
+                            }
+
+                            $('.schedule-stat').on('click',function(){
+                                var uid = $(this).attr("uid");
+                                var group = $(this).attr("group");
+                                
+                                $(".info_popup").draggable({
+                                containment: "window",
+                                cancel: ".info_popup .cont",
+                                start: function () {
+                                    $(this).css({
+                                        transform: "none",
+                                        transition: "none",
+                                        cursor: "move",
+                                    });
+                                },
+                                stop: function () {
+                                    $(this).css("cursor", "default");
+                                },
+                                });
+                                $('.info_popup').show();
+                                $('.info_popup').next('.dim').show();
+                                $('body').addClass('over');
+                                if(group == 1){
+                                    goDaily(uid);
+                                }else{
+                                    goWeekly(uid);
+                                }
+                                return;
+                            });
+
+                            var k = 1;
+                            function goWeekly(uid){
+                                $('.info_popup').show();
+                                $('.info_popup').next('.dim').show();
+                                $('body').addClass('over');
+                                $("#pop_load").load("./weeklyCheck?uid="+uid+"&temp="+k++);
+                            }
+
+                            function goDaily(uid){
+                                $('.info_popup').show();
+                                $('.info_popup').next('.dim').show();
+                                $('body').addClass('over');
+                                $("#pop_load").load("./dailyCheck?uid="+uid);
+                            }
+
+                            function goDailySetting(uid) {
+                                $('.info_popup').show();
+                                $('.info_popup').next('.dim').show();
+                                $('body').addClass('over');
+                                $("#pop_load").load("./dailySetting?uid="+uid);
+                            }
+
+                            function goWeeklySetting(uid) {
+                                $('.info_popup').show();
+                                $('.info_popup').next('.dim').show();
+                                $('body').addClass('over');
+                                $("#pop_load").load("./weeklySetting?uid="+uid);
+                            }
+
+                            function goSchedulerSetting(uid) {
+                                $('.info_popup').show();
+                                $('.info_popup').next('.dim').show();
+                                $('body').addClass('over');
+                                $("#pop_load").load("./my_char_list?uid="+uid);
+                            }
+
+                            $('.info_popup button.pop_close').on('click',function(){
+                                $(this).closest('.info_popup').hide();
+                                $(this).closest('.info_popup').next('.dim').hide();
+                                $('body').removeClass('over');
+                                location.reload();
+                            });
+
+                            $('.info_popup button.pop_close').on('click',function(){
+                                $(this).closest('.info_popup').hide();
+                            });
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </body>
+</html>

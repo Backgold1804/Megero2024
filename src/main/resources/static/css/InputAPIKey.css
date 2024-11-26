@@ -1,0 +1,157 @@
+* {
+    box-sizing: border-box;
+}
+
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+:root {
+    --body-color: #DFF2EB;
+    --back-color: #B9E5E8;
+    --title-color: #95CCDD;
+    --hover-color: #7AB2D3;
+    --line-color: #4A628A;
+}
+
+body {
+    font-family: 'Pretendard-Regular';
+    font-size: .875rem;
+    background-color: var(--body-color);
+}
+
+.header {
+    width: 100%;
+    height: 3.75rem;
+    background-color: var(--title-color);
+    display: flex;
+    justify-content: space-between;
+}
+
+.main {
+    width: 100%;
+    opacity: 1;
+    left: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
+    margin-top: 3.125rem;
+    gap: 7.5rem;
+}
+
+.input-key {
+    width: 96.6875rem;
+    opacity: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
+    gap: 1.875rem;
+}
+
+.input-key-frame {
+    width: 100%;
+    opacity: 1;
+    display: flex;
+    gap: 1.25rem;
+}
+
+.text-title {
+    font-size: 3rem;
+    padding: .625rem 1.875rem;
+    text-align: center;
+    align-content: center;
+    background-color: var(--title-color);
+}
+
+.input-key .text-title {
+    border-radius: .25rem;
+}
+
+.input-key-text {
+    flex-grow: 2;
+    font-size: 1.25rem;
+    text-align: center;
+    align-content: center;
+    background-color: var(--back-color);
+    padding: .625rem 1.25rem;
+    border-radius: .25rem;
+}
+
+.key-input {
+    flex-grow: 11;
+    font-size: 1.5rem;
+    border: .0625rem solid #CCCCCC;
+    border-radius: .25rem;
+    outline: none;
+}
+
+.key-input:focus {
+    border: .1875rem solid #CCCCCC;
+}
+
+.ok-btn {
+    flex-grow: 1;
+    padding: .625rem 1.25rem;
+    font-size: 1.25rem;
+    text-align: center;
+    align-content: center;
+    background-color: var(--back-color);
+    border: .125rem solid var(--line-color);
+    color: black;
+    border-radius: .25rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.ok-btn:hover {
+    background-color: var(--hover-color);
+    color: #FFFFFF;
+}
+
+.key-issuance-guide {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1.875rem;
+}
+
+.guide-text {
+    font-size: 2.125rem;
+    text-align: center;
+}
+
+.guide-frame {
+    width: 90%;
+    display: flex;
+    margin: 0 auto;
+    justify-content: space-evenly;
+    background-color: var(--back-color);
+    gap: 1.25rem;
+}
+
+.detail-frame {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: .625rem;
+}
+
+.guide-text-small {
+    width: 100%;
+    font-size: 1.5rem;
+    text-align: center;
+    align-content: center;
+    margin-bottom: 1.875rem;
+}
+
+.guide-img {
+    width: 31.25rem;
+    margin: 0 auto;
+    object-fit: contain;
+}

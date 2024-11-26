@@ -1,0 +1,22 @@
+spring:
+  config:
+    import:
+      - application-secret.yml
+      - application-oauth.yml
+  profiles:
+    include: oauth
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+  thymeleaf:
+    enable: true
+    cache: false
+
+mybatis:
+  mapper-locations: file:/mappers/*.xml
+  configuration:
+    map-underscore-to-camel: true

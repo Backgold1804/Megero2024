@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <th:block th:replace="~{./include/head.html}"></th:block>
+    <body>
+        <div class="Wpop">
+            <div th:replace="~{./include/top.html}"></div>
+
+            <div class="cont_area">
+                <div class="cont">
+                    <div class="box">
+    
+                        <div class="tab_area">
+                            <div class="tab_nav col3">
+                                <ul class="tab_list">
+                                    <li class="nav-class-feature active">직업 특징 및 추천</li>
+                                    <a href="/scheduler"><li class="nav-scheduler">스케줄러</li></a>
+                                </ul>
+                            </div>
+                    
+                            <div class="detail-main" style="width: 1400px;">
+                                <a class="back-main" th:href="@{/}">&lt; 전체 직업</a>
+                                <div class="detail-info">
+                                    <div class="d-class-info">
+                                        <div class="class-info-1">
+                                            <img class="class-img" th:src="@{/images/standings/{uid}Std.png(uid=${detail.uid})}" />
+                                            <div class="class-assort-column">
+                                                <div class="class-assort">
+                                                    <div class="class-name-text">[[${detail.className}]]</div>
+                                                    <div class="detail-text-color">[[${detail.kindName}]]</div>
+                                                    <div class="detail-text-color">[[${detail.groupName}]]</div>
+                                                </div>
+                                                <div class="class-assort">
+                                                    <div class="detail-text">유니온: [[${detail.unionBonus}]]</div>
+                                                    <div class="detail-text">|  링크</div>
+                                                    <img class="class-info-img" th:src="@{/images/skills/{lcode}.png(lcode=${detail.linkCode})}" />
+                                                </div>
+                                            </div>
+                                            <div class="class-assort-column union-setting-container">
+                                                <div class="detail-text">유니온 설정</div>
+                                                <select id="union_num" class="union-num">
+                                                    <option  th:each="unionSet, unionSetStat : ${union}"  th:value="${unionSet}" th:text="${unionSetStat.index+1}" th:selected="${(unionSetStat.index+1)} == ${use_no}">VV</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="class-info-2">
+                                            <div id="critical-rate-text" class="detail-text critical-rate-text"></div>
+                                            <div class="detail-text" th:if="${detail.resetCRD == 1 and detail.buffDuration == 1}">쿨타임 초기화 O  |  버프 지속시간 O</div>
+                                            <div class="detail-text" th:if="${detail.resetCRD == 1 and detail.buffDuration == 0}">쿨타임 초기화 O  |  버프 지속시간 X</div>
+                                            <div class="detail-text" th:if="${detail.resetCRD == 0 and detail.buffDuration == 1}">쿨타임 초기화 X  |  버프 지속시간 O</div>
+                                            <div class="detail-text" th:if="${detail.resetCRD == 0 and detail.buffDuration == 0}">쿨타임 초기화 X  | 버프 지속시간 X</div>
+                                        </div>
+
+                                        <script>
+                                            function fn_change() {
+                                                var union_num = $("#union_num option:selected").val();
+                                                
+                                                var sharp = ([[${detail.sharpYN}]] == 0)? 10 : 20;
+                                                var total = [[${detail.criticalRate}]] + sharp + parseInt(union_num);
+                                                var text = "크리티컬 확률 : [[${detail.criticalRate}]] + "+sharp+" + "+union_num+" = "+total+"%";
+                    
+                                                $("#critical-rate-text").text(text);
+
+                                                //추천테그
+                                                //보스
+                                                //데미지
+                                                var i = 0;
+                                                for(i = 0 ; i < 9;i++){
+                                                    $("#bossD-"+i).addClass('recs-label');
+                                                }
+                                                if(total > 85){
+                                                    $("#bossD-"+i).addClass('recs-label');
+                                                }else{
+                                                    $("#bossD-"+i).removeClass('recs-label');
+                                                }
+                                                //생존
+                                                $("#bossL-0").addClass('recs-label');
+                                                //보강
+                                                $("#bossR-0").addClass('recs-label');
+                                                if(total <= 85){
+                                                    $("#bossR-1").addClass('recs-label');
+                                                }else{
+                                                    $("#bossR-1").removeClass('recs-label');
+                                                }
+
+                                                //경험치
+                                                for(i = 0 ; i < 3;i++){
+                                                    $("#huntE-"+i).addClass('recs-label');
+                                                }
+                                                //보강
+                                                if(total <= 85){
+                                                    $("#huntR-0").addClass('recs-label');
+                                                }else{
+                                                    $("#huntR-0").removeClass('recs-label');
+                                                }
+                                                //데미지
+                                                for(i = 0 ; i < 8;i++){
+                                                    $("#huntD-"+i).addClass('recs-label');
+                                                }
+                                                if(total > 85){
+                                                    $("#huntD-"+i).addClass('recs-label');
+                                                }else{
+                                                    $("#huntD-"+i).removeClass('recs-label');
+                                                }
+                                            }
+                                            $("#union_num").change(function(){
+                                                fn_change();
+                                            });
+
+                                            switch ('[[${detail.kindName}]]') {
+                                                case "전사":
+                                                    $('.detail-text-color').css('background-color', 'var(--warrior-color)');
+                                                    break
+                                                case "마법사":
+                                                    $('.detail-text-color').css('background-color', 'var(--mage-color)');
+                                                    break
+                                                case "궁수":
+                                                    $('.detail-text-color').css('background-color', 'var(--archer-color)');
+                                                    break
+                                                case "도적":
+                                                case "도적/해적":
+                                                    $('.detail-text-color').css('background-color', 'var(--rogue-color)');
+                                                    break
+                                                case "해적":
+                                                    $('.detail-text-color').css('background-color', 'var(--pirate-color)');
+                                                    break
+                                            };
+
+                                            $(document).ready(function(){
+                                                fn_change();
+                                            });
+                                            
+                                        </script>
+                                    </div>
+                    
+                                    <div class="info-frame">
+                                        <div class="header-btn">
+                                            <div class="detail-text">링크</div>
+                                            <div class="change-list">
+                                                <a class="change-btn active" id="boss-btn">보스</a>
+                                                <a class="change-btn" id="hunt-btn">사냥</a>
+                                            </div>
+                                        </div>
+                                        <div class="link-container">
+                                            <div class="boss-container">
+                                                <div class="link-assort">
+                                                    <div class="detail-text">데미지</div>
+                                                    <div th:id="${'bossD-'+itemStatus.index}" th:each="item, itemStatus : ${linkMap['boss']['bossD']}">
+                                                        <img class="skill-img" th:src="@{/images/skills/{code}.png(code=${item.code})}" />        
+                                                    </div>
+                                                </div>
+                                                <div class="link-assort">
+                                                    <div class="detail-text">보강</div>
+                                                    <div th:id="${'bossR-'+itemStatus.index}" th:each="item, itemStatus : ${linkMap['boss']['bossR']}">
+                                                        <img class="skill-img" th:src="@{/images/skills/{code}.png(code=${item.code})}" />        
+                                                    </div>
+                                                </div>
+                                                <div class="link-assort">
+                                                    <div class="detail-text">생존</div>
+                                                    <div th:id="${'bossL-'+itemStatus.index}" th:each="item, itemStatus : ${linkMap['boss']['bossL']}">
+                                                        <img class="skill-img" th:src="@{/images/skills/{code}.png(code=${item.code})}" />        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="hunt-container" style="display: none;">
+                                                <div class="link-assort">
+                                                    <div class="detail-text">경험치</div>
+                                                    <div th:id="${'huntE-'+itemStatus.index}" th:each="item, itemStatus : ${linkMap['hunt']['huntE']}">
+                                                        <img class="skill-img" th:src="@{/images/skills/{code}.png(code=${item.code})}" />        
+                                                    </div>
+                                                </div>
+                                                <div class="link-assort">
+                                                    <div class="detail-text">데미지</div>
+                                                    <div th:id="${'huntD-'+itemStatus.index}" th:each="item, itemStatus: ${linkMap['hunt']['huntD']}">
+                                                        <img class="skill-img" th:src="@{/images/skills/{code}.png(code=${item.code})}" />        
+                                                    </div>
+                                                </div>
+                                                <div class="link-assort">
+                                                    <div class="detail-text">보강</div>
+                                                    <div th:id="${'huntR-'+itemStatus.index}" th:each="item, itemStatus : ${linkMap['hunt']['huntR']}">
+                                                        <img class="skill-img" th:src="@{/images/skills/{code}.png(code=${item.code})}" />        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                    
+                                    <div class="info-frame">
+                                        <div class="header-no-btn">
+                                            <div class="detail-text">어빌리티</div>
+                                        </div>
+                                        <div class="ability-assort">
+                                            <div class="ability-assort-1">
+                                                <div class="detail-text-header">레전더리 어빌리티</div>
+                                                <div class="detail-text" th:unless="${#strings.equals(ability.greenAbility1, '')}" th:text="${ability.greenAbility1}"></div>
+                                                <div class="detail-text" th:unless="${#strings.equals(ability.greenAbility2, '')}" th:text="${ability.greenAbility1}"></div>
+                                            </div>
+                                            <div class="ability-assort-2">
+                                                <div class="detail-text-header">유니크 어빌리티</div>
+                                                <div class="detail-text" th:unless="${#strings.equals(ability.yellowAbility1, '')}" th:text="${ability.yellowAbility1}"></div>
+                                                <div class="detail-text" th:unless="${#strings.equals(ability.yellowAbility2, '')}" th:text="${ability.yellowAbility2}"></div>
+                                                <div class="detail-text" th:unless="${#strings.equals(ability.yellowAbility3, '')}" th:text="${ability.yellowAbility3}"></div>
+                                                <div class="detail-text" th:unless="${#strings.equals(ability.yellowAbility4, '')}" th:text="${ability.yellowAbility4}"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                    
+                                    <div class="info-frame">
+                                        <div class="header-no-btn">
+                                            <div class="detail-text">하이퍼 패시브</div>
+                                        </div>
+                                        <div class="hyper-passive-assort">
+                                            <div th:each="item, itemStatus: ${hyperPassiveMap['order']}" th:classappend="${itemStatus.index < 5} ? p-recs-label : ''">
+                                                <img class="hyper-passive" th:src="@{/images/skills/{code}.png(code=${item.code})}" />        
+                                            </div>
+                                            <div></div>
+                                            <div th:each="item : ${hyperPassiveMap['other']}">
+                                                <img class="hyper-passive" th:src="@{/images/skills/{code}.png(code=${item.code})}" />        
+                                            </div>
+                                        </div>
+                                    </div>
+                    
+                                    <div class="info-frame">
+                                        <div class="header-btn">
+                                            <div class="detail-text">5차 스킬</div>
+                                            <div class="change-list">
+                                                <div class="change-btn active" id="v-main-btn">본캐</div>
+                                                <div class="change-btn" id="v-weekly-btn">주보</div>
+                                                <div class="change-btn" id="v-union-btn">유니온</div>
+                                            </div>
+                                        </div>
+                                        <div class="main-v-container">
+                                            <div class="link-assort">
+                                                <div class="detail-text">강화 코어</div>
+                                                <div th:each="item : ${vSkillMap['boostBoss']}">
+                                                    <img class="skill-img" th:src="@{/images/skills/{code}.png(code=${item.code})}"/>
+                                                </div>
+                                            </div>
+                                            <div class="link-assort">
+                                                <div class="detail-text">직업<br>스킬 코어</div>
+                                                <div th:each="item : ${vSkillMap['classBoss']}">
+                                                    <img class="skill-img" th:src="@{/images/skills/{code}.png(code=${item.code})}"/>
+                                                </div>
+                                            </div>
+                                            <div class="link-assort">
+                                                <div class="detail-text">공용<br>스킬 코어</div>
+                                                <div class="link-assort" style="flex-wrap: wrap; padding-left: 0;">
+                                                    <div th:each="item : ${vSkillMap['sharedBoss']}">
+                                                        <img class="skill-img" th:src="@{/images/skills/{code}.png(code=${item.code})}" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="union-v-container" style="display: none;">
+                                            <div class="link-assort">
+                                                <div class="detail-text">강화 코어</div>
+                                                <div th:each="item : ${vSkillMap['boostUnion']}">
+                                                    <img class="skill-img" th:src="@{/images/skills/{code}.png(code=${item.code})}"/>
+                                                </div>
+                                            </div>
+                                            <div class="link-assort">
+                                                <div class="detail-text">직업<br>스킬 코어</div>
+                                                <div th:each="item : ${vSkillMap['classUnion']}">
+                                                    <img class="skill-img" th:src="@{/images/skills/{code}.png(code=${item.code})}"/>
+                                                </div>
+                                            </div>
+                                            <div class="link-assort">
+                                                <div class="detail-text">공용<br>스킬 코어</div>
+                                                <div class="link-assort" style="flex-wrap: wrap; padding-left: 0;">
+                                                    <div th:each="item : ${vSkillMap['sharedUnion']}">
+                                                        <img class="skill-img" th:src="@{/images/skills/{code}.png(code=${item.code})}" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>        
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            $('#boss-btn').on('click', function() {
+                if ($('#boss-btn').not("active") && $('#hunt-btn').hasClass("active")) {
+                    $('.boss-container').show();
+                    $('.hunt-container').hide();
+                    $('#boss-btn').addClass("active");
+                    $('#hunt-btn').removeClass("active");
+                }
+            });
+
+            $('#hunt-btn').on('click', function() {
+                if ($('#hunt-btn').not("active") && $('#boss-btn').hasClass("active")) {
+                    $('.hunt-container').show();
+                    $('.boss-container').hide();
+                    $('#hunt-btn').addClass("active");
+                    $('#boss-btn').removeClass("active");
+                }
+            });
+
+            $('#v-main-btn').on('click', function() {
+                if ($('.main-v-container').is(':visible')) {
+                    $('#v-main-btn').addClass("active");
+                    $('#v-weekly-btn').removeClass("active");
+                    $('#v-union-btn').removeClass("active");
+                } else {
+                    $('.main-v-container').show();
+                    $('.union-v-container').hide();
+                    $('#v-main-btn').addClass("active");
+                    $('#v-weekly-btn').removeClass("active");
+                    $('#v-union-btn').removeClass("active");
+                }
+            });
+
+            $('#v-weekly-btn').on('click', function() {
+                if ($('.main-v-container').is(':visible')) {
+                    $('#v-weekly-btn').addClass("active");
+                    $('#v-main-btn').removeClass("active");
+                    $('#v-union-btn').removeClass("active");
+                } else {
+                    $('.main-v-container').show();
+                    $('.union-v-container').hide();
+                    $('#v-weekly-btn').addClass("active");
+                    $('#v-main-btn').removeClass("active");
+                    $('#v-union-btn').removeClass("active");
+                }
+            });
+
+            $('#v-union-btn').on('click', function() {
+                $('.union-v-container').show();
+                $('.main-v-container').hide();
+                $('#v-union-btn').addClass("active");
+                $('#v-main-btn').removeClass("active");
+                $('#v-weekly-btn').removeClass("active");
+            });
+        </script>
+    </body>
+</html>

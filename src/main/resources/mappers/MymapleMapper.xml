@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mabatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mymaple.repository.MymapleMapper">
+    <select id="getAllClass" resultType="com.example.mymaple.vo.classfeature.ClassFeatureVO">
+        SELECT c.uid
+            , c.class_name
+            , t.uid AS group_uid
+            , t.class_name AS group_name
+            , u.uid kind_uid
+            , u.class_name AS kind_name
+            , c.img
+        FROM class c
+        LEFT JOIN kind_class u ON c.kind_uid = u.uid
+        LEFT JOIN group_class t ON c.group_uid = t.uid
+        WHERE c.use_yn = 1;
+    </select>
+
+    <select id="getAllKind" resultType="java.util.HashMap">
+        SELECT DISTINCT u.uid AS kind_uid
+                , u.class_name kind_name
+        FROM class c
+        LEFT JOIN kind_class u ON c.kind_uid = u.uid
+        WHERE c.use_yn = 1;
+    </select>
+
+    <select id="getClassUid" resultType="Integer" parameterType="String">
+        SELECT uid
+        FROM class
+        WHERE class_name = #{classname}
+        AND use_yn = 1
+    </select>
+
+    <select id="getCharacter" resultType="com.example.mymaple.vo.CharacterVO" parameterType="com.example.mymaple.vo.CharacterVO">
+        SELECT *
+        FROM mymaple.character
+        WHERE member_uid = #{member_uid}
+        AND character_key = #{character_key}
+    </select>
+
+    <select id="getCharacterMain" resultType="com.example.mymaple.vo.CharacterVO" parameterType="Integer">
+        SELECT *
+               , fn_classname(class_uid) classname
+               , (SELECT img FROM tcode WHERE use_yn = 1 AND title = world_name) world_img
+        FROM mymaple.character
+        WHERE member_uid = #{member_uid}
+               AND main_yn = 1
+    </select>
+
+    <select id="getCharacterList" resultType="com.example.mymaple.vo.CharacterVO" parameterType="Integer">
+        SELECT *
+               , fn_classname(class_uid) classname
+               , (SELECT img FROM tcode WHERE use_yn = 1 AND title = world_name) world_img
+        FROM mymaple.character
+        WHERE member_uid = #{member_uid}
+               AND img_path != ""
+        ORDER BY character.level DESC, uid ASC
+    </select>
+
+    <select id="isApiKey" resultType="Integer" parameterType="Integer">
+        SELECT COUNT(1) FROM mymaple.users WHERE user_id = #{user_id} AND api_key IS NOT NULL OR api_key != ''
+    </select>
+    <select id="isMainYN" resultType="Integer" parameterType="Integer">
+        SELECT COUNT(1) FROM mymaple.character WHERE member_uid = #{user_id} AND main_yn = 1
+    </select>
+
+    <insert id="insertCharacter" parameterType="com.example.mymaple.vo.CharacterVO">
+        INSERT INTO mymaple.character
+        (
+        member_uid,
+        class_uid,
+        nickname,
+        level,
+        main_yn,
+        use_yn,
+        character_key,
+        img_path,
+        world_name)
+        VALUES
+        (
+        #{member_uid},
+        #{class_uid},
+        #{nickname},
+        #{level},
+        #{main_yn},
+        #{use_yn},
+        #{character_key},
+        #{img_path},
+        #{world_name});
+    </insert>
+    <update id="updateCharacter" parameterType="com.example.mymaple.vo.CharacterVO">
+        UPDATE
+                mymaple.character
+        SET
+                class_uid = #{class_uid},
+                nickname = #{nickname},
+                level = #{level},
+                main_yn = #{main_yn},
+                use_yn = #{use_yn},
+                img_path = #{img_path},
+                world_name = #{world_name}
+        WHERE   member_uid = #{member_uid}
+                AND character_key = #{character_key}
+    </update>
+
+    <update id="updateCharacterMain" parameterType="com.example.mymaple.vo.CharacterVO">
+
+
+        UPDATE
+        mymaple.character
+        SET
+        main_yn = 1
+        , use_yn = 1
+        WHERE   member_uid = #{member_uid}
+        AND uid = #{uid}
+    </update>
+
+    <update id="clearCharacterMain" parameterType="com.example.mymaple.vo.CharacterVO">
+        UPDATE
+        mymaple.character
+        SET
+        main_yn = 0
+        WHERE   member_uid = #{member_uid}
+    </update>
+
+
+    <update id="updateApiKey" parameterType="com.example.mymaple.vo.MemberVO">
+        UPDATE users
+           SET api_key = #{api_key}
+         WHERE user_id = #{id}
+    </update>
+
+    <select id="getMainOcid" parameterType="Integer" resultType="String">
+        SELECT character_key
+        FROM mymaple.character
+        WHERE member_uid = #{user_uid}
+        AND main_yn = 1;
+    </select>
+
+    <select id="getClassDetail1" parameterType="Integer" resultType="com.example.mymaple.vo.classfeature.ClassFeatureDetail1VO">
+        SELECT c.uid
+            , c.group_uid
+            , c.kind_uid
+            , u.class_name AS kind_name
+            , t.class_name AS group_name
+            , c.class_name
+            , c.sharp_eyes
+            , c.critical_rate
+            , tcode.title union_bonus_title
+            , IF(c.legendary_ability_uid1 = 66, 1, 0) reset_cdr
+            , IF(c.legendary_ability_uid1 = 60, 1, 0) buff_duration
+            , s.code
+            , s.title
+        FROM class c
+        LEFT JOIN group_class t ON c.group_uid = t.uid
+        LEFT JOIN kind_class u ON c.kind_uid = u.uid
+        LEFT JOIN tcode ON c.union_bonus = tcode.uid
+        LEFT JOIN skill s ON fn_link_skill(c.uid) = s.class_uid
+        WHERE c.uid = #{classUid}
+        AND c.use_yn = 1
+        AND s.uid > 386
+        ORDER BY c.uid;
+    </select>
+
+    <select id="getLinkList" parameterType="Map" resultType="com.example.mymaple.vo.classfeature.LinkVO">
+        SELECT uid
+            , parent_uid AS parentUid
+            , skill.code
+            , title
+            , display_order_boss
+            , display_order_hunt
+        FROM skill
+        WHERE parent_uid > 5
+        AND class_uid NOT IN(#{classUid}, #{groupUid}, #{kindUid});
+    </select>
+
+    <select id="getAbility" parameterType="Integer" resultType="com.example.mymaple.vo.classfeature.AbilityVO">
+        SELECT IFNULL(fn_code(legendary_ability_uid1), "") greenAbility1
+            , IFNULL(fn_code(legendary_ability_uid2), "") greenAbility2
+            , IFNULL(fn_code(unique_ability_uid1), "") yellowAbility1
+            , IFNULL(fn_code(unique_ability_uid2), "") yellowAbility2
+            , IFNULL(fn_code(unique_ability_uid3), "") yellowAbility3
+            , IFNULL(fn_code(unique_ability_uid4), "") yellowAbility4
+        FROM class
+        WHERE uid = #{classUid};
+    </select>
+
+    <select id="getHyperPassive" parameterType="Integer" resultType="com.example.mymaple.vo.classfeature.HyperPassiveVO">
+        SELECT uid
+            , title
+            , skill.code
+            , display_order_boss
+        FROM skill
+        WHERE class_uid = #{classUid}
+        AND parent_uid = 2
+        ORDER BY display_order_boss;
+    </select>
+
+    <select id="getVSkillOO" parameterType="java.util.HashMap" resultType="com.example.mymaple.vo.classfeature.VSkillVO">
+        SELECT *
+          FROM (
+                SELECT uid
+                    , parent_uid
+                    , skill.code
+                    , title
+                    , display_order_boss
+                    , display_order_hunt
+                FROM skill
+                WHERE
+                    ((group_uid = 1 OR group_uid IN (SELECT group_uid FROM class WHERE uid = #{classUid}))
+                    AND  (kind_uid = 1 OR kind_uid IN (SELECT kind_uid FROM class WHERE uid = #{classUid}))
+                    AND parent_uid  =1)
+                OR
+                    (class_uid = #{classUid} AND parent_uid IN (3, 4))
+        ) a
+        WHERE a.parent_uid = #{parentUid}
+        <if test='union == 0'>
+            ORDER BY a.display_order_boss;
+        </if>
+        <if test='union == 1'>
+            ORDER BY a.display_order_hunt;
+        </if>
+    </select>
+
+    <select id="getVSkill" parameterType="Integer" resultType="com.example.mymaple.vo.classfeature.VSkillVO">
+        SELECT uid
+            , parent_uid
+            , skill.code
+            , title
+            , display_order_boss
+            , display_order_hunt
+        FROM skill
+        WHERE
+            ((group_uid = 1 OR group_uid IN (SELECT group_uid FROM class WHERE uid = #{classUid}))
+            AND (kind_uid = 1 OR kind_uid IN (SELECT kind_uid FROM class WHERE uid = #{classUid}))
+            AND parent_uid  =1)
+        OR
+            (class_uid = #{classUid} AND parent_uid IN (3, 4))
+    </select>
+</mapper>
